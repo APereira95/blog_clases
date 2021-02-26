@@ -12,6 +12,7 @@ def index(request):
     return render(request, 'index.html', {
         'title':'Blog',
         'header':'Lista de artículos',
+        'metadescription': 'Esto es una descripción para ayudar al posicionamiento SEO de 130 palabras',
         'articulos': [
             {'title':'artículo uno', 'autor': 'Daried Gil', 'published':True},
             {'title':'artículo dos', 'autor': 'Luis Duran', 'published':True},
@@ -38,5 +39,6 @@ def login_view(request):
             messages.error(request, 'Usuario o contraseña invalida')
 
     return render(request, 'users/login.html', {
-
+        'title':'Login',
+        'header':'Login'
     })
