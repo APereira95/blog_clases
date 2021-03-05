@@ -5,8 +5,10 @@ from django.shortcuts import redirect
 from django.contrib import messages
 
 from django.contrib.auth import login
+from django.contrib.auth import logout
 from django.contrib.auth import authenticate
 
+from .forms import RegisterForm
 
 def index(request):
     return render(request, 'index.html', {
@@ -41,4 +43,25 @@ def login_view(request):
     return render(request, 'users/login.html', {
         'title':'Login',
         'header':'Login'
+    })
+
+def logout_view(request):
+    logout(request)
+    messages.success(request, 'Sesión cerrada exitosamente')
+    return redirect('login')
+
+def register_view(request):
+    form = RegisterForm(request.POST or None)
+
+    if request.method == 'POST' and form.is_valid():
+        user = form.save()
+        if user:
+            login(request, user)
+            messages.success(request, 'Usuario creado con éxito')
+            return redirect('index')
+
+    return render(request, 'users/register.html', {
+        'title':'Registro',
+        'header':'Registro',
+        'form':form
     })
